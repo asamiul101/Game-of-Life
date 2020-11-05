@@ -1,0 +1,87 @@
+#include <vector>
+using std::vector;
+#include <iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+vector<vector<bool>> world = {
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+};
+
+//I got help from recitation for above part//
+
+
+bool rules (const int R, const int C) {
+	size_t i=0, j=0;
+	int numNbrs = 0;
+	for (size_t row = 0; row < 3; row++) {
+		i = (R+row+world.size()-1)%world.size();
+		for (size_t col = 0; col < 3; col++) {
+			j = (C+col+world[0].size()-1)%world[0].size();
+			numNbrs += world[i][j];
+		}
+	}
+  
+  int nbrs1 = numNbrs - world[R][C];
+
+	if (world[R][C]) {
+		if (nbrs1 == 3 || nbrs1 == 2) return	true;
+			return false;
+	}
+	else {
+		if (nbrs1 == 3) return true;
+		return false;
+	}
+}
+
+//this below seccction will print out the array//
+
+
+
+//the above portion I got help from the tutoring//
+
+vector<size_t> r;
+vector<size_t> c;
+
+vector<vector<bool>> newGen=world;
+
+int main() {
+	size_t k;
+	cout << "Enter what generation you want to see: ";
+	cin >> k;
+
+	for (size_t i = 0; i < k; i++) {
+		for (size_t m = 0; m < world.size(); m++) {
+			for (size_t n = 0; n < world[m].size(); n++) {
+			newGen[m][n] = rules (m,n);
+			}
+		}
+		world = newGen;
+	}
+	for (size_t x = 0; x < world.size(); x++) {
+		for (size_t y = 0; y < world[x].size(); y++) {
+			if (world[x][y]) cout << '0' << " ";
+			else cout << '.' << " ";
+		}
+		cout << endl;
+	}
+	cout << endl;
+	return 0;
+}
+
+
+	/* NOTE: the vector 'world' above corresponds to the contents
+	 * of ../res/tests/0.  TODO: apply the rules to the vector,
+	 * write the result to standard output, and compare with the
+	 * contents of ../tests/1. */
+
